@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeMaster - The Final Project</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>TypeMaster</h1>
+        <nav id="nav-logged-out">
+            <a href="#" id="nav-login-btn">Login</a>
+            <a href="#" id="nav-register-btn">Register</a>
+        </nav>
+        <nav id="nav-logged-in" class="hidden">
+            <span id="welcome-user"></span>
+            <a href="#" id="nav-game-btn">Game</a>
+            <a href="#" id="nav-leaderboard-btn">Leaderboard</a>
+            <a href="#" id="nav-logout-btn">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="login-view" class="view hidden">
+            <h2>Login</h2>
+            <form id="login-form">
+                <input type="text" id="login-username" placeholder="Username" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit">Login</button>
+                <p id="login-error" class="error"></p>
+            </form>
+        </section>
+
+        <section id="register-view" class="view hidden">
+            <h2>Register</h2>
+            <form id="register-form">
+                <input type="text" id="register-username" placeholder="Username" required>
+                <input type="password" id="register-password" placeholder="Password" required>
+                <button type="submit">Register</button>
+                <p id="register-error" class="error"></p>
+                <p id="register-success" class="success"></p>
+            </form>
+        </section>
+
+        <section id="game-view" class="view">
+            <h2>Typing Test</h2>
+            <div class="game-controls">
+                <label for="difficulty-select">Difficulty:</label>
+                <select id="difficulty-select">
+                    <option value="Normal">Normal (TH/EN)</option>
+                    <option value="NormalPlus">Normal Plus (TH/EN/Emoji)</option>
+                    <option value="NormalProMax">Normal Pro Max (TH/EN/Emoji/Others)</option>
+                </select>
+            </div>
+
+            <div id="stats-display">
+                <div class="stat">Timer: <span id="timer">0</span>s</div>
+                <div class="stat">WPM: <span id="wpm-display">0</span></div>
+                <div class="stat">Accuracy: <span id="accuracy-display">100</span>%</div>
+            </div>
+            
+            <div id="text-to-type-container" class="loading">
+                <div id="text-to-type"></div>
+                <div id="loading-spinner">Loading text from LLM...</div>
+            </div>
+            
+            <textarea id="typing-input" rows="5" placeholder="Start typing here... (Paste is disabled)" disabled></textarea>
+            
+            <button id="start-game-btn">Start Game</button>
+            <p id="game-message" class="success"></p>
+        </section>
+
+        <section id="leaderboard-view" class="view hidden">
+            <h2>Leaderboard</h2>
+            <div class="game-controls">
+                <label for="leaderboard-difficulty">Select Difficulty:</label>
+                <select id="leaderboard-difficulty">
+                    <option value="Normal">Normal</option>
+                    <option value="NormalPlus">Normal Plus</option>
+                    <option value="NormalProMax">Normal Pro Max</option>
+                </select>
+            </div>
+            <table id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Username</th>
+                        <th>Avg. WPM</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    </tbody>
+            </table>
+            <p id="leaderboard-loading">Loading...</p>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
