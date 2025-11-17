@@ -4,6 +4,13 @@ const Game = require('../models/gameModel');
 const User = require('../models/userModel');
 const { authMiddleware } = require('./authRoutes'); // import middleware
 
+console.log("------------------------------------------------");
+console.log("DEBUG: API KEY status:", process.env.GEMINI_API_KEY ? "Found ✅" : "Not Found ❌");
+if (process.env.GEMINI_API_KEY) {
+    console.log("DEBUG: Key starts with:", process.env.GEMINI_API_KEY.substring(0, 5) + "...");
+}
+console.log("------------------------------------------------");
+
 const router = express.Router();
 
 // --- 1. READ: Get Text from LLM (Challenging Req) ---

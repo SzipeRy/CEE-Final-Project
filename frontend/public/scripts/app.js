@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // URL ของ Backend (ถ้า deploy ต้องเปลี่ยน)
-    const API_BASE_URL = 'http://localhost:3222/api'; // (ถ้า deploy บน EC2 ให้เปลี่ยนเป็น Public IP)
+    const API_BASE_URL = 'http://34.236.156.163:3222/api'; // (ถ้า deploy บน EC2 ให้เปลี่ยนเป็น Public IP)
 
     // State ของ Application
     let token = localStorage.getItem('token');
