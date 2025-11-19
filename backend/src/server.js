@@ -139,6 +139,45 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
+=======
+// ... (ต่อจาก Login อันเดิม) ...
+
+// ⭐️ (เพิ่ม) DELETE Account
+app.delete('/api/auth/delete-account', authMiddleware, async (req, res) => {
+    try {
+        const { password } = req.body; // รับรหัสผ่านที่ user พิมพ์ยืนยัน
+        const { userId } = req.user;   // รับ ID จาก Token (ผ่าน middleware)
+
+        const usersCollection = db.collection('User');
+        const gamesCollection = db.collection('Games'); // Collection ที่เก็บประวัติการเล่น
+
+        // 1. หา User ในฐานข้อมูลเพื่อเช็ครหัสผ่าน
+        const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        // 2. ตรวจสอบรหัสผ่าน (เทียบกับ Plain Text ตามรูปแบบเดิมของไฟล์นี้)
+        if (user.password !== password) {
+            return res.status(400).json({ message: 'รหัสผ่านไม่ถูกต้อง (Incorrect password)' });
+        }
+
+        // 3. ลบประวัติการเล่นทั้งหมดของ User นี้
+        await gamesCollection.deleteMany({ userId: new ObjectId(userId) });
+
+        // 4. ลบ User ออกจากระบบ
+        await usersCollection.deleteOne({ _id: new ObjectId(userId) });
+
+        res.json({ message: 'Account deleted successfully' });
+
+    } catch (error) {
+        console.error("Delete Account Error:", error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
+>>>>>>> 07d18d1823ccbc20a6331257c11fbc33d415f880
 // --- 6. Game API Routes ---
 
 // ⭐️ (เพิ่ม) GET Text from LLM
@@ -202,7 +241,11 @@ app.get('/api/game/get-text/:difficulty', async (req, res) => {
         const { difficulty } = req.params;
 
         console.log("🤖 Initializing Gemini-Pro model...");
+<<<<<<< HEAD
         const localModel = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+=======
+        const localModel = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+>>>>>>> 07d18d1823ccbc20a6331257c11fbc33d415f880
 
         let prompt;
         if (difficulty === 'Normal') {
