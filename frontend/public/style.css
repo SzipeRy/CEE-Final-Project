@@ -188,6 +188,63 @@ button:hover {
     background-color: #f2f2f2;
 }
 
+/* --- เพิ่มต่อท้ายไฟล์ style.css ได้เลย --- */
+
+/* พื้นหลังสีดำจางๆ เวลา Modal เด้งขึ้นมา */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* กล่องสีขาวตรงกลาง */
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* ปุ่มใน Modal */
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.danger-btn {
+    background-color: #dc3545; /* สีแดง */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    flex: 1;
+}
+.danger-btn:hover { background-color: #c82333; }
+
+.secondary-btn {
+    background-color: #6c757d; /* สีเทา */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    flex: 1;
+}
+.secondary-btn:hover { background-color: #5a6268; }
+
 /* --- 📱 RESPONSIVE DESIGN (Challenging Req) --- */
 
 @media (max-width: 600px) {

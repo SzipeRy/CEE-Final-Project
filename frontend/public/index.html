@@ -18,6 +18,7 @@
             <span id="welcome-user"></span>
             <a href="#" id="nav-game-btn">Game</a>
             <a href="#" id="nav-leaderboard-btn">Leaderboard</a>
+            <a href="#" id="nav-delete-btn" style="color: #ff4d4d; font-weight: bold;">Delete Account</a>
             <a href="#" id="nav-logout-btn">Logout</a>
         </nav>
     </header>
@@ -97,6 +98,22 @@
         </section>
     </main>
 
-    <script src="app.js"></script>
+
+    <div id="delete-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2 style="color: red;">⚠️ Delete Account</h2>
+            <p>การกระทำนี้ไม่สามารถย้อนกลับได้ ข้อมูลคะแนนทั้งหมดจะหายไป</p>
+            <p>กรุณาใส่รหัสผ่านเพื่อยืนยัน:</p>
+        
+            <input type="password" id="delete-confirm-password" placeholder="Enter your password">
+        
+            <div class="modal-buttons">
+                <button id="confirm-delete-btn" class="danger-btn">Confirm Delete</button>
+                <button id="cancel-delete-btn" class="secondary-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/app.js"></script>
 </body>
 </html>

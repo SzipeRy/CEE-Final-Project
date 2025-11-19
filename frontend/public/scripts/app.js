@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // URL ของ Backend (ถ้า deploy ต้องเปลี่ยน)
-    const API_BASE_URL = 'http://localhost:3222/api'; // (ถ้า deploy บน EC2 ให้เปลี่ยนเป็น Public IP)
+    const API_BASE_URL = 'http://54.167.60.8:3222/api'; // (ถ้า deploy บน EC2 ให้เปลี่ยนเป็น Public IP)
 
     // State ของ Application
     let token = localStorage.getItem('token');
@@ -51,6 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const leaderboardDifficulty = document.getElementById('leaderboard-difficulty');
     const leaderboardBody = document.getElementById('leaderboard-body');
     const leaderboardLoading = document.getElementById('leaderboard-loading');
+
+    //delete account
+    const navDeleteBtn = document.getElementById('nav-delete-btn');
+    const deleteModal = document.getElementById('delete-modal');
+    const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+    const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+    const deletePasswordInput = document.getElementById('delete-confirm-password');
 
     // --- 1. Helper Functions ---
 
@@ -146,6 +153,65 @@ document.addEventListener('DOMContentLoaded', () => {
             resetGame(); // โหลด text ใหม่เมื่อ login
         } catch (error) {
             loginError.textContent = error.message;
+        }
+    });
+
+    navDeleteBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        deletePasswordInput.value = ''; // เคลียร์ช่องรหัสผ่าน
+        deleteModal.classList.remove('hidden'); // แสดง Modal
+    });
+
+    // 2. กดปุ่ม Cancel -> ปิด Modal
+    cancelDeleteBtn.addEventListener('click', () => {
+        deleteModal.classList.add('hidden');
+    });
+
+    // 3. กดปุ่ม Confirm Delete -> ยิง API ไปลบ
+    confirmDeleteBtn.addEventListener('click', async () => {
+        const password = deletePasswordInput.value;
+
+        if (!password) {
+            alert("กรุณาใส่รหัสผ่าน");
+            return;
+        }
+
+        const confirmText = confirm("คุณแน่ใจจริงๆ ใช่ไหม? ข้อมูลจะหายหมดเลยนะ!");
+        if (!confirmText) return;
+
+        try {
+            // ยิง API ไปที่ backend
+            const res = await fetch(`${API_BASE_URL}/auth/delete-account`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // ต้องส่ง Token เพื่อบอกว่าเป็นใคร
+                },
+                body: JSON.stringify({ password: password }) // ส่งรหัสผ่านไปยืนยัน
+            });
+
+            const data = await res.json(); // รับค่าตอบกลับจาก Server
+
+            if (res.ok) {
+                // 1. แจ้งเตือนผู้ใช้
+                alert('ลบบัญชีเรียบร้อยแล้ว'); 
+    
+                // 2. ปิดหน้าต่าง Modal
+                deleteModal.classList.add('hidden');
+    
+                // 3. 👇 เพิ่มโค้ดชุดนี้เข้าไปครับ (สำคัญ) 👇
+                localStorage.removeItem('token');    // ลบกุญแจ Token ทิ้ง
+                localStorage.removeItem('username'); // ลบชื่อ User ทิ้ง
+                window.location.reload();            // สั่งรีโหลดหน้าจอ (มันจะเด้งกลับไป Login เอง)
+                // 👆 จบโค้ดที่เพิ่ม 👆
+
+            } else {
+                alert(`ลบไม่สำเร็จ: ${data.message}`);
+            }
+
+        } catch (error) {
+            console.error("Error deleting account:", error);
+            alert("เกิดข้อผิดพลาดในการเชื่อมต่อ");
         }
     });
 
